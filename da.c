@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #define FACTOR 2
+#define MIN_SIZE_CAPACITY_RATIO 0.25
 
 struct DA {
     int capacity;
