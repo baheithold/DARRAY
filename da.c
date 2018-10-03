@@ -26,3 +26,8 @@ void setDAdisplay(DA *items, void (*display)(void *, FILE *)) {
     assert(items != 0);
     items->display = display;
 }
+
+void setDAfree(DA *items, void (*free)(void *)) {
+    assert(items != 0);
+    items->free = free;
+}
