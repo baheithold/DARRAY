@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-typedef struct da DA;
+typedef struct DA DA;
 
 extern DA *newDA(void);
 extern void setDAdisplay(DA *items, void (*display)(void *, FILE *));
