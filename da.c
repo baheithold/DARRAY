@@ -32,3 +32,8 @@ void setDAfree(DA *items, void (*free)(void *)) {
     assert(items != 0);
     items->free = free;
 }
+
+int sizeDA(DA *items) {
+    assert(items != 0);
+    return items->size;
+}
