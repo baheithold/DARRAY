@@ -2,13 +2,16 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#define FACTOR 2
+#define GROWTH_FACTOR 2
 #define MIN_SIZE_CAPACITY_RATIO 0.25
 
 #define insertDAfront(items, value)     insertDA(items, 0, value)
 #define removeDAfront(items)            removeDA(items, 0)
 #define insertDAback(items, value)      insertDA(items, sizeDA(items) - 1, value)
 #define removeDAback(items)             removeDA(items, sizeDA(items) - 1)
+
+
+/********** Dynamic Array Struct **********/
 
 struct DA {
     int capacity;
@@ -18,6 +21,9 @@ struct DA {
     void (*display)(void *, FILE *);
     void (*free)(void *);
 };
+
+
+/********** Public Methods **********/
 
 DA *newDA(void) {
     DA *da = malloc(sizeof(DA));
@@ -42,3 +48,6 @@ int sizeDA(DA *items) {
     assert(items != NULL);
     return items->size;
 }
+
+
+/********** Private Methods **********/
