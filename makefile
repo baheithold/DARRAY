@@ -1,4 +1,4 @@
-OBJS = integer.o real.o string.o
+OBJS = integer.o real.o string.o da.o
 EXECS = test-da
 OOPTS = -Wall -Wextra -Werror -std=c99 -g -c
 LOPTS = -Wall -Wextra -Werror -g
@@ -13,6 +13,9 @@ real.o: 	real.h real.c
 
 string.o: 	string.h string.c
 		gcc $(OOPTS) string.c
+
+da.o: 	da.c da.h
+		gcc $(OOPTS) da.c
 
 test-da.o: 	test-da.c da.c da.h integer.c integer.h
 		gcc $(OOPTS) ./test-da.c
