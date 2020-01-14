@@ -2,6 +2,7 @@
 *.o
 
 # Executables
+test-da
 
 # Debug files
 *.vgcore
