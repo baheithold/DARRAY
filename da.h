@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-typedef struct da DA;
+typedef struct DA DA;
 
 extern DA   *newDA(void);
 extern void  setDAdisplay(DA *items, void (*display)(void *, FILE *));
@@ -18,9 +18,9 @@ extern void  displayDA(DA *items, FILE *fp);
 extern int   debugDA(DA *items, int index);
 extern void  freeDA(DA *items);
 
-#define insertDAfront(items, value) insertDA(items, 0, value)
-#define removeDAfront(items)        removeDA(items, 0)
-#define insertDAback(items, value)  insertDA(items, sizeDA(items), value)
-#define removeDAback(items)         removeDA(items, sizeDA(items) - 1)
+#define insertdafront(items, value) insertDA(items, 0, value)
+#define removedafront(items)        removeDA(items, 0)
+#define insertdaback(items, value)  insertDA(items, sizeDA(items), value)
+#define removedaback(items)         removeDA(items, sizeDA(items) - 1)
 
-#endif // !__DA_INCLUDED__
+#endif // !__da_INCLUDED__
