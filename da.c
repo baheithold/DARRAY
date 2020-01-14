@@ -16,7 +16,7 @@ struct DA {
 
 DA *newDA(void) {
     DA *da = malloc(sizeof(DA));
-    assert(da != 0);
+    assert(da != NULL);
     da->capacity = 1;
     da->size = 0;
     da->store = malloc(sizeof(void**));
@@ -24,16 +24,16 @@ DA *newDA(void) {
 }
 
 void setDAdisplay(DA *items, void (*display)(void *, FILE *)) {
-    assert(items != 0);
+    assert(items != NULL);
     items->display = display;
 }
 
 void setDAfree(DA *items, void (*free)(void *)) {
-    assert(items != 0);
+    assert(items != NULL);
     items->free = free;
 }
 
 int sizeDA(DA *items) {
-    assert(items != 0);
+    assert(items != NULL);
     return items->size;
 }
