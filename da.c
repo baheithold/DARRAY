@@ -5,6 +5,11 @@
 #define FACTOR 2
 #define MIN_SIZE_CAPACITY_RATIO 0.25
 
+#define insertDAfront(items, value)     insertDA(items, 0, value)
+#define removeDAfront(items)            removeDA(items, 0)
+#define insertDAback(items, value)      insertDA(items, sizeDA(items) - 1, value)
+#define removeDAback(items)             removeDA(items, sizeDA(items) - 1)
+
 struct DA {
     int capacity;
     int size;

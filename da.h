@@ -18,9 +18,4 @@ extern void  displayDA(DA *items, FILE *fp);
 extern int   debugDA(DA *items, int index);
 extern void  freeDA(DA *items);
 
-#define insertdafront(items, value) insertDA(items, 0, value)
-#define removedafront(items)        removeDA(items, 0)
-#define insertdaback(items, value)  insertDA(items, sizeDA(items), value)
-#define removedaback(items)         removeDA(items, sizeDA(items) - 1)
-
 #endif // !__da_INCLUDED__
