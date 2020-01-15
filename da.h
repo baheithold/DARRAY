@@ -15,7 +15,7 @@ extern void *getDA(DA *items, int index);
 extern void *setDA(DA *items, int index, void *value);
 extern int   sizeDA(DA *items);
 extern void  displayDA(DA *items, FILE *fp);
-extern int   debugDA(DA *items, int index);
+extern int   debugDA(DA *items, int level);
 extern void  freeDA(DA *items);
 
 #endif // !__da_INCLUDED__
