@@ -47,6 +47,14 @@ void setDAfree(DA *items, void (*free)(void *)) {
     items->free = free;
 }
 
+void insertDA(DA *items, int index, void *value) {
+    assert(items != NULL);
+    assert(index >= 0);
+    if (items->size == items->capacity) {
+        grow(items);
+    }
+}
+
 void unionDA(DA *recipient, DA *donor) {
     assert(recipient != NULL);
     assert(donor != NULL);
@@ -139,19 +147,19 @@ static void grow(DA *items) {
     assert(items != NULL);
     // Calculate new capacity
     int newCapacity = items->capacity * GROWTH_FACTOR;
-    // Allocate new store
+    // Allocate new store with the new capacity
     void **newStore = malloc(sizeof(void *) * newCapacity);
     assert(newStore != NULL);
-    // Copy content from old store to new store
+    // Copy content from the old store to the new store
     copyStore(items->store, newStore, items->size);
     // Free old store
     for (int i = 0; i < items->size; ++i) {
         items->free(items->store[i]);
     }
     free(items->store);
-    // Assign new store to DA
+    // Set the data structure's store to the new store
     items->store = newStore;
-    // Update capacity
+    // Update the capacity
     items->capacity = newCapacity;
 }
 
