@@ -186,6 +186,7 @@ void freeDA(DA *items) {
             items->free(items->store[i]);
         }
     }
+    free(items->store);
     free(items);
 }
 
