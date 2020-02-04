@@ -1,7 +1,7 @@
 OBJS = integer.o real.o string.o da.o
 EXECS = test-da
-OOPTS = -Wall -Wextra -Werror -std=c99 -g -c
-LOPTS = -Wall -Wextra -Werror -g
+OOPTS = -Wall -Wextra -std=c99 -g -c
+LOPTS = -Wall -Wextra -g
 
 all: 	$(OBJS) test-da
 
