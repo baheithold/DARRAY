@@ -237,7 +237,7 @@ static void addBetweenFrontAndBack(DA *items, int index, void *value) {
 static void shiftValuesRightOfIndex(DA *items, int index) {
     assert(items != NULL);
     assert(index >= 0);
-    for (int i = items->size; i >= index; --i) {
+    for (int i = items->size - 1; i >= index; --i) {
         items->store[i + 1] = items->store[i];
     }
 }
@@ -274,7 +274,7 @@ static void *removeBetweenFrontAndBack(DA *items, int index) {
     // get return value
     void *oldValue = items->store[index];
     // shift values to left
-    for (int i = index; i < items->size; ++i) {
+    for (int i = index; i < items->size - 1; ++i) {
         items->store[i] = items->store[i + 1];
     }
     // return old value
