@@ -4,6 +4,7 @@
 
 #define GROWTH_FACTOR 2
 #define MIN_SIZE_CAPACITY_RATIO 0.25
+#define ARRAY_FRONT 0
 
 
 /********** Dynamic Array Struct **********/
@@ -22,7 +23,13 @@ struct DA {
 /********** Private Method Prototypes **********/
 static void grow(DA *items);
 static void shrink(DA *items);
-static void copyStore(void **oldStore, void **newStore, int size);
+static void addToFront(DA *items, void *value);
+static void addToBack(DA *items, void *value);
+static void addBetweenFrontAndBack(DA *items, int index, void *value);
+static void shiftValuesRightOfIndex(DA *items, int index);
+static void *removeFromFront(DA *items);
+static void *removeFromBack(DA *items);
+static void *removeBetweenFrontAndBack(DA *items, int index);
 
 
 /********** Public Method Definitions **********/
@@ -50,17 +57,59 @@ void setDAfree(DA *items, void (*free)(void *)) {
 void insertDA(DA *items, int index, void *value) {
     assert(items != NULL);
     assert(index >= 0);
+
+    // if the store is full, grow the store
     if (items->size == items->capacity) {
         grow(items);
     }
+
+    if (index == ARRAY_FRONT) {
+        // inserting value at front of array
+        addToFront(items, value);
+    }
+    else if (index == items->size) {
+        // inserting value at back of array
+        addToBack(items, value);
+    }
+    else {
+        // inserting between front and back of array
+        addBetweenFrontAndBack(items, index, value);
+    }
+
+    // increment the size of the array
+    items->size++;
+}
+
+void *removeDA(DA *items, int index) {
+    assert(items != NULL);
+    assert(items->size > 0);
+    void *oldValue;
+    if (index == ARRAY_FRONT) {
+        // remove from front of array
+        oldValue = removeFromFront(items);
+    }
+    else if (index == items->size) {
+        // remove from back of array
+        oldValue = removeFromBack(items);
+    }
+    else {
+        // remove between front and back of array
+        oldValue = removeBetweenFrontAndBack(items, index);
+    }
+    items->size--;
+    // shrink if necessary
+    if ((double)items->size / (double)items->capacity < MIN_SIZE_CAPACITY_RATIO) {
+        shrink(items);
+    }
+    // return removed value
+    return oldValue;
 }
 
 void unionDA(DA *recipient, DA *donor) {
     assert(recipient != NULL);
     assert(donor != NULL);
     for (int i = 0; i < donor->size; ++i) {
-        insertDA(recipient, recipient->size, donor->store[i]);
-        removeDA(donor, 0);
+        insertDA(recipient, recipient->size, removeDA(donor, 0));
     }
     free(donor);
 }
@@ -109,14 +158,14 @@ void displayDA(DA *items, FILE *fp) {
             items->display(items->store[i], fp);
         }
         // if index is less than the size of the array
-        // or the debug level is greater than zero, print a comma
-        if (i < items->size || items->debugLevel > 0) {
+        if (i < items->size - 1) {
             fprintf(fp, ",");
         }
     }
     // if debug level is greater than zero
     // print the number of empty slots in the array
     if (items->debugLevel > 0) {
+        if (items->size > 0) fprintf(fp, ",");
         fprintf(fp, "[%d]", items->capacity - items->size);
     }
     fprintf(fp, "]");
@@ -147,50 +196,87 @@ static void grow(DA *items) {
     assert(items != NULL);
     // Calculate new capacity
     int newCapacity = items->capacity * GROWTH_FACTOR;
-    // Allocate new store with the new capacity
-    void **newStore = malloc(sizeof(void *) * newCapacity);
-    assert(newStore != NULL);
-    // Copy content from the old store to the new store
-    copyStore(items->store, newStore, items->size);
-    // Free old store
-    for (int i = 0; i < items->size; ++i) {
-        items->free(items->store[i]);
-    }
-    free(items->store);
-    // Set the data structure's store to the new store
-    items->store = newStore;
+    // realloc store
+    items->store = realloc(items->store, sizeof(void *) * newCapacity);
     // Update the capacity
     items->capacity = newCapacity;
 }
 
 static void shrink(DA *items) {
     assert(items != NULL);
-    // If there is nothing in array, reset capacity to 1
-    items->capacity = 0;
-    return;
     // Calculate new capacity
-    int newCapacity = items->capacity / GROWTH_FACTOR;
-    // Allocate new store
-    void **newStore = malloc(sizeof(void *) * newCapacity);
-    assert(newStore != NULL);
-    // Copy content from old store to new store
-    copyStore(items->store, newStore, items->size);
-    // Free old store
-    for (int i = 0; i < items->size; ++i) {
-        items->free(items->store[i]);
-    }
-    free(items->store);
-    // Assign new store to DA
-    items->store = newStore;
+    int newCapacity = (items->size == 0) ? 1 : items->capacity / GROWTH_FACTOR;
+    // realloc store
+    items->store = realloc(items->store, sizeof(void *) * newCapacity);
     // Update capacity
     items->capacity = newCapacity;
 }
 
-static void copyStore(void **oldStore, void **newStore, int size) {
-    assert(oldStore != NULL);
-    assert(newStore != NULL);
-    assert(size >= 0);
-    for (int i = 0; i < size; ++i) {
-        newStore[i] = oldStore[i];
+static void addToFront(DA *items, void *value) {
+    assert(items != NULL);
+    shiftValuesRightOfIndex(items, ARRAY_FRONT);
+    items->store[ARRAY_FRONT] = value;
+}
+
+static void addToBack(DA *items, void *value) {
+    assert(items != NULL);
+    assert(items->size < items->capacity);
+    items->store[items->size] = value;
+}
+
+static void addBetweenFrontAndBack(DA *items, int index, void *value) {
+    assert(items != NULL);
+    assert(items->size >= 0);
+    assert(items->size < items->capacity);
+    assert(index > 0);
+    assert(index < items->size);
+    shiftValuesRightOfIndex(items, index);
+    items->store[index] = value;
+}
+
+static void shiftValuesRightOfIndex(DA *items, int index) {
+    assert(items != NULL);
+    assert(index >= 0);
+    for (int i = items->size; i >= index; --i) {
+        items->store[i + 1] = items->store[i];
     }
+}
+
+static void *removeFromFront(DA *items) {
+    assert(items != NULL);
+    assert(items->size > 0);
+    // get return value
+    void *oldValue = items->store[ARRAY_FRONT];
+    // shift values to the right
+    for (int i = 0; i < items->size; ++i) {
+        items->store[i] = items->store[i + 1];
+    }
+    // return old value
+    return oldValue;
+}
+
+static void *removeFromBack(DA *items) {
+    assert(items != NULL);
+    assert(items->size > 0);
+    // get return value
+    void *oldValue = items->store[items->size];
+    // remove value from back
+    items->store[items->size] = NULL;
+    // return old value
+    return oldValue;
+}
+
+static void *removeBetweenFrontAndBack(DA *items, int index) {
+    assert(items != NULL);
+    assert(items->size > 0);
+    assert(index > 0);
+    assert(index < items->size);
+    // get return value
+    void *oldValue = items->store[index];
+    // shift values to left
+    for (int i = index; i < items->size; ++i) {
+        items->store[i] = items->store[i + 1];
+    }
+    // return old value
+    return oldValue;
 }
