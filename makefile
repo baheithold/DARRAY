@@ -28,5 +28,10 @@ test: 	test-da
 		@echo Testing...
 		@./test-da
 
+valgrind: 	test-da
+		clear
+		@echo Testing with Valgrind...
+		@valgrind ./test-da
+
 clean:
 		rm -f $(EXECS) *.o *.vgcore
