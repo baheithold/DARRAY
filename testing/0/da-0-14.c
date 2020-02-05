@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "integer.h"
-#include "real.h"
-#include "string.h"
-#include "da.h"
+#include "../../integer.h"
+#include "../../real.h"
+#include "../../string.h"
+#include "../../da.h"
 
 void srandom(unsigned int);
 long int random(void);
