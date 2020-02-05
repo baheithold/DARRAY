@@ -1,0 +1,6 @@
+INTEGER test of DA, random insertions
+items: [[1]]
+items: [11,4,6,4,4,6,4,1,10,5,4,0,[4]]
+size is 12
+items: [11,4,0,6,4,4,3,4,6,0,7,4,2,1,10,5,3,3,10,4,2,9,0,0,[8]]
+size is 24

@@ -1,0 +1,6 @@
+INTEGER test of DA, insertions and deletions at tail
+items: [[1]]
+items: [[1]]
+size is 0
+items: [32,20,0,7,13,33,13,26,28,[23]]
+size is 9

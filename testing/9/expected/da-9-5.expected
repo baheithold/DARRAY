@@ -1,0 +1,6 @@
+INTEGER test of DA, random insertions and deletions
+items: [[1]]
+items: [8,14,12,14,9,3,[10]]
+size is 6
+items: [20,13,12,5,16,14,7,13,18,18,5,19,2,3,1,7,[16]]
+size is 16

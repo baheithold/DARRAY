@@ -1,0 +1,10 @@
+INTEGER test of DA, delete all
+items: [[1]]
+items: [0,1,2,3,13,4,14,5,12,6,10,16,15,7,11,8,9,[15]]
+size is 17
+items: [1,[0]]
+size is 1
+items: [1,0,1,11,9,2,3,13,4,5,15,6,16,12,14,7,10,8,[14]]
+size is 18
+items: [1,1,[2]]
+size is 2
