@@ -176,4 +176,11 @@ valgrind: 	test-da
 ###############################################################################
 # 																		CLEAN
 clean:
+		@echo Cleaning...
 		rm -f $(EXECS) *.o *.vgcore
+###############################################################################
+# 																		REBUILD
+rebuild:
+		@make clean -s;
+		@echo Rebuilding...
+		@make -s
