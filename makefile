@@ -29,6 +29,8 @@ string.o: 	string.h string.c
 # 																		DA
 da.o: 	da.c da.h
 		gcc $(OOPTS) da.c
+###############################################################################
+# 																		TEST
 
 test-da.o: 	test-da.c da.c da.h integer.c integer.h real.c real.h string.c string.h
 		gcc $(OOPTS) ./test-da.c
@@ -36,8 +38,6 @@ test-da.o: 	test-da.c da.c da.h integer.c integer.h real.c real.h string.c strin
 test-da: 	$(OBJS) test-da.o
 		gcc $(LOPTS) $(OBJS) test-da.o -o test-da
 
-###############################################################################
-# 																		TEST
 test: 	test-da
 		clear
 		@echo Testing...
