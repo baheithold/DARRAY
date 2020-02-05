@@ -108,10 +108,9 @@ void *removeDA(DA *items, int index) {
 void unionDA(DA *recipient, DA *donor) {
     assert(recipient != NULL);
     assert(donor != NULL);
-    for (int i = 0; i < donor->size; ++i) {
-        insertDA(recipient, recipient->size, removeDA(donor, 0));
+    for (int i = ARRAY_FRONT; i < donor->size; ++i) {
+        insertDA(recipient, recipient->size, removeDA(donor, ARRAY_FRONT));
     }
-    free(donor);
 }
 
 void *getDA(DA *items, int index) {
