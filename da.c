@@ -178,6 +178,13 @@ int debugDA(DA *items, int level) {
     return oldLevel;
 }
 
+void shrinkToFitDA(DA *items) {
+    assert(items != NULL);
+    int newCapacity = items->size;
+    items->store = realloc(items->store, sizeof(void *) * newCapacity);
+    items->capacity = newCapacity;
+}
+
 void freeDA(DA *items) {
     assert(items != NULL);
     if (items->free != NULL) {
